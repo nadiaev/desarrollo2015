@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+    	<link rel="stylesheet" href="style.css">
+        <meta charset="UTF-8">
+        <title>DSSD App</title>
+    </head>
+    <body>
+   
+		<table class="w3-table-all" style="width:100%">
+				<tr>
+
+					<th>Nombre</th>
+					<th>Propietario</th>
+					<th>Ultima modificacion</th>
+					<th>Descargar</th>
+		<?php if (isset($listado_documentos)){ 
+			//var_dump($listado_documentos[0]);die();
+			foreach ($listado_documentos as $item) { ?>
+						<?php 
+							if ($item['parents'][0]['isRoot'] && (empty($item['explicitlyTrashed']))) {
+						?>
+					<th>
+						<a href="<?php echo $item['alternateLink']; ?>"> 
+							<img src="<?php echo $item['iconLink']; ?>" style="width:20px;height:20px;">
+							<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['title']; ?></label>
+						</a>	 
+					</th>
+					
+					<th>
+	 	 				<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['ownerNames'][0]; ?></label>
+					</th>
+
+					<th>
+	 	 				<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['modifiedDate']; ?></label>
+					</th>
+
+					<th>
+						<a href="<?php echo $item['webContentLink']; ?>"> <label style=" font-size:10pt;font-weight:200; " for="" class=""> Descargar</label> </a>	  
+					</th>
+
+					<?php } ?>
+				</tr>
+		<?php 
+			}
+		}
+		?>
+		</table>
+    </body>
+</html>
