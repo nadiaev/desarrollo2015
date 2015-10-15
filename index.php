@@ -29,31 +29,14 @@ $service = new Google_DriveService($client);
 $authUrl = $client->createAuthUrl();
 
 //Request authorization
-print "Please visit:\n$authUrl\n\n";
-print "Please enter the auth code:\n";
+//print "Please visit:\n$authUrl\n\n";
+//print "Please enter the auth code:\n";
 $authCode = trim(fgets(STDIN));
 
 // Exchange authorization code for access token
 $accessToken = $client->authenticate($authCode);
 $client->setAccessToken($accessToken);
 
-//Insert a file
-/*
-$file = new Google_DriveFile();
-$file->setTitle('My document');
-$file->setDescription('A test document');
-$file->setMimeType('text/plain');
-
-$data = file_get_contents('document.txt'); //Put this file into same folder
-
-$createdFile = $service->files->insert($file, array(
-      //'data' => $data,
-      'mimeType' => 'text/plain',
-    )); ////Upload File
-echo '<pre>';
-//print_r($createdFile);
-echo '</pre>';
-*/
 
 //////Function for getting all files from your drive
 
@@ -81,10 +64,10 @@ function retrieveAllFiles($service) {
     }   
 
 $listado_documentos = retrieveAllFiles($service);
-echo '<pre>';
+//echo '<pre>';
 //print_r($listado_documentos);
-echo '</pre>';
-include 'layout.html';
+//echo '</pre>';
+include 'layout_con-logut.html';
 ?>
 </body>
 </html>
