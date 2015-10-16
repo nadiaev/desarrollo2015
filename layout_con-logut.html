@@ -3,73 +3,67 @@
     <head>
     	<link rel="stylesheet" href="style.css">
         <meta charset="UTF-8">
-        <title>DSSD App</title>
+        <title>DSSD2015-Cloud Computing</title>
     </head>
     <body>
-    	<header>
-   		<a class="devsite-user-signout gc-analytics-event" href="https://www.google.com/accounts/Logout" data-category="Site-Wide Custom Events" data-label="Sign out button" style="margin-left:90%;"> 
+   		<a class="devsite-user-signout gc-analytics-event" href="https://www.google.com/accounts/Logout" data-category="Site-Wide Custom Events" data-label="Sign out button" style="margin-left:90%;">
+            
             Cerrar sesión
        </a>
-    	</header>
+	       
+		   <!--- LE AGREGUE TITULO !   ---->
+		   <h1> Tu Unidad de Google Drive</h1>
+		<table class="w3-table-all" style="width:100%">
+			<thead>	
+				<tr>
 
-    	<div>
+					<th>Nombre</th>
+					<th>Propietario</th>
+					<th>Ultima modificaci&oacute;n</th>
+					 <!--- LE CAMBIE ACA PARA QUE AQUELLOS ARCHIVOS QUE NO SE PUEDAN DESCARGAR, SEA LA OPCION PARA VER !   ---->
+					<th>Ver / Descargar</th>
+				</tr>	
+			 </thead>		
+		<?php if (isset($listado_documentos)){ 
+			//var_dump($listado_documentos);die();
+			foreach ($listado_documentos as $item) { ?>
+						<?php 
+							if ($item['parents'][0]['isRoot'] && (empty($item['explicitlyTrashed']))) {
+						?>
+								
+							<tr>
+								<td>
+									<a href="<?php echo $item['alternateLink']; ?>"> 
+										<img src="<?php echo $item['iconLink']; ?>" style="width:20px;height:20px;">
+										<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo   $item['title']; ?></label>
+									</a>	 
+								</td>
+								
+								<td>
+									<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['ownerNames'][0]; ?></label>
+								</td>
 
-			<table class="w3-table-all" style="width:100%">
-					<tr>
+								<td>
+									<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['modifiedDate']; ?></label>
+								</td>
+								
 
-						<th>Nombre</th>
-						<th>Propietario</th>
-						<th>Ultima modificacion</th>
-						<th>Descargar</th>
-					</tr>
-			<?php if (isset($listado_documentos)){ 
-				//var_dump($listado_documentos[0]);die();
-				foreach ($listado_documentos as $item) { ?>
-							<?php 
-								if ($item['parents'][0]['isRoot'] && (empty($item['explicitlyTrashed']))) {
-							?>
-					<tr>
-
-						<th>
-							<a href="<?php echo $item['alternateLink']; ?>"> 
-								<img src="<?php echo $item['iconLink']; ?>" style="width:20px;height:20px;">
-								<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['title']; ?></label>
-							</a>	 
-						</th>
-						
-						<th>
-		 	 				<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $item['ownerNames'][0]; ?></label>
-						</th>
-
-						<th>
-							<?php 
-								$modDate = explode('T', $item['modifiedDate']);
-								$fecha = explode('-', $modDate[0]);
-								$hs = explode(':',$modDate[1]);
-
-							?>
-		 	 				<label style=" font-size:10pt;font-weight:200; " for="" class=""> <?php echo $fecha[2].'/'.$fecha[1].'/'.$fecha[0] . ' a las ' . $hs[0] .':' . $hs[1]; ?></label>
-						</th>
- 
-						<th>
-							<?php if($item['mimeType'] == 'application/vnd.google-apps.folder'){?>
-
-								 <label style=" font-size:10pt;font-weight:200; " for="" class=""> - </label>	  
-							<?php } else{ ?>
-
-									<a href="<?php echo $item['webContentLink']; ?>"> <label style=" font-size:10pt;font-weight:200; " for="" class=""> Descargar</label> </a>	
-
-							<?php } ?> 
-						</th>
-					</tr>
-
-						<?php } ?>
-			<?php 
-				}
+								<td>
+								 <!--- ACA PREGUNTO SINO TIENE UN LINK PONGO EL OTRO, ALGUNOS TIENEN EL "WEB CONTENT" Y OTROS EL "ALTERNATE", NO SE SI PONER EL GUION COMO TERCERA OPCION  ---->
+									<?php if (isset($item['webContentLink'])){ 	?>
+										<a href="<?php echo $item['webContentLink']; ?>"> <label style=" font-size:10pt;font-weight:200; " for="" class=""> Descargar</label> </a>	  
+									
+									<?php } else if (isset($item['alternateLink'])){  ?>
+										<a href="<?php echo $item['alternateLink']; ?>"> <label style=" font-size:10pt;font-weight:200; " for="" class=""> Descargar</label> </a>	 
+									<?php } ?>
+								</td>
+					<?php } ?>
+				</tr>
+		<?php 
 			}
-			?>
-			</table>
-    	</div>
+		}
+		?>
+		</table>
     </body>
 	
 </html>
